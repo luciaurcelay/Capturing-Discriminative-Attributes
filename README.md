@@ -13,4 +13,6 @@ Or SSH:
 `git clone git@github.com:luciaurcelay/Capturing-Discriminative-Attributes.git`
 
 ### Execute code
-`python train.py`
+train.py function requires argurments, use the following line get more information about them:
+
+`python train.py -h`

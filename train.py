@@ -5,7 +5,7 @@ import tensorflow as tf
 from utils.argument_parser import parse_input_arguments
 from utils.path_utils import *
 from utils.csv_utils import *
-from feature_extraction.embedings import generate_embeddings
+from feature_extraction.embeddings import generate_embeddings
 
 # Define Functions
 def extract_features(parsed_args, train_df, val_df, feature_names, embeddings_path):
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     validation_csv_path = join_path(root_path, 'data', 'training', 'validation.csv')
     test_csv_path = join_path(root_path, 'data', 'test', 'ref', 'test.csv')
     experiments_paths = create_folder(root_path, 'experiments')
-    new_experiment_path = create_new_experiment_folder(experiments_paths)
+    new_experiment_path = create_new_experiment_folder(parsed_args, experiments_paths)
     embeddings_path = join_path(root_path, 'resources\glove.6B')
     feature_names = ['word1', 'word2', 'pivot', 'label']
 

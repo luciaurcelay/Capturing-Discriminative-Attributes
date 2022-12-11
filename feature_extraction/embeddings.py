@@ -3,6 +3,12 @@ import pandas as pd
 from collections import Counter
 from collections import defaultdict
 from utils.path_utils import join_path
+import warnings
+
+import pandas as pd
+from pandas.core.common import SettingWithCopyWarning
+
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
 def generate_word_index(dataframe):
@@ -25,28 +31,23 @@ def generate_word_index(dataframe):
         for i in super_dict[k]:
             list.append(i)
         super_dict[k] = sum(list)
+    
     return super_dict
 
 
 def embedding_for_vocab(args, embeddings_path, word_index):
     embedding_dim = args.embedding_dim
-    """ vocab_size = len(word_index) + 1
-
-    embedding_matrix_vocab = np.zeros((vocab_size,
-                                       embedding_dim)) """
-
+    # create dictionary with keys as words and values as embeddings
     embedding_vocab_dict = {}
-    
+    # open selected embedding file
     with open(embeddings_path, encoding="utf8") as f:
         for line in f:
             word, *vector = line.split()
             if word in word_index:
-                """ idx = word_index[word]
-                embedding_matrix_vocab[idx]= np.array(
-                    vector, dtype=np.float32)[:embedding_dim] """
-                
-                embedding_vocab_dict[word] = np.array(
+                # add word to vocabulary
+                embedding_values = np.array(
                     vector, dtype=np.float32)[:embedding_dim]
+                embedding_vocab_dict[word] = embedding_values.mean(axis=0)
   
     return embedding_vocab_dict
 
@@ -62,12 +63,12 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
             try:
                 dataframe[columnName + '_embedding'].iloc[i] = embeddings_vocab[word]
             except:
-                dataframe[columnName + '_embedding'].iloc[i] = 'False'
+                dataframe[columnName + '_embedding'].iloc[i] = np.nan
                 false_rows.append(i)
                 print('False found')
-    # delete rows which have rows that do not have embeddings
+    # delete rows which have not have embeddings
     if len(false_rows) > 0:
-        dataframe.drop(dataframe.index[false_rows])
+        dataframe = dataframe.drop(false_rows).reset_index()
     
     return dataframe
 
@@ -81,4 +82,5 @@ def generate_embeddings(args, dataframe, feature_names, embeddings_path):
     embedding_matrix_vocab = embedding_for_vocab(args, embeddings_path, word_index)
     # create word embeddings for every word
     dataframe = create_embeddings(dataframe, feature_names, embedding_matrix_vocab)
+    
     return dataframe

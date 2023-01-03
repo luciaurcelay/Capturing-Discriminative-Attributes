@@ -5,7 +5,8 @@ def parse_input_arguments():
         prog='Capturing Discriminative Attributes', 
         description='Train different classifiers con Capturing Discriminative Attributes dataset')
 
-    parser.add_argument('-e','--embedding', help='Pre-trained word embedding', choices=['glove.6B.50d', 'glove.6B.100d', 'glove.6B.200d', 'glove.6B.300d'], default=['glove.6B.50d'])
+    parser.add_argument('-g', '--embedding', help='Embedding type', choices=['glove', 'contextual'], default='glove')
+    parser.add_argument('-ge','--glove_embedding', help='Glove pre-trained word embedding', choices=['glove.6B.50d', 'glove.6B.100d', 'glove.6B.200d', 'glove.6B.300d'], default=['glove.6B.50d'])
     parser.add_argument('-ed', '--embedding_dim', help='Dimension of the embedding', type=int, default=50)
     parser.add_argument('-nw', '--new_experiment', help='Create new experiment folder', choices=['True', 'False'], default='True')
     parser.add_argument('-s', '--seed', help='Seed', type=int, default=42) 

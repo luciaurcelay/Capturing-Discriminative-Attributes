@@ -6,9 +6,9 @@ from utils.path_utils import join_path
 import warnings
 
 import pandas as pd
-from pandas.core.common import SettingWithCopyWarning
+# from pandas.core.common import SettingWithCopyWarning
 
-warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+# warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
 def generate_word_index(dataframe):

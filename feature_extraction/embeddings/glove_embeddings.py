@@ -7,7 +7,6 @@ import warnings
 
 import pandas as pd
 # from pandas.core.common import SettingWithCopyWarning
-
 # warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
@@ -73,7 +72,7 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
     return dataframe
 
 
-def generate_embeddings(args, dataframe, feature_names, embeddings_path):
+def generate_glove_embeddings(args, dataframe, feature_names, embeddings_path):
     # create word index
     word_index = generate_word_index(dataframe)
     # access embedding file

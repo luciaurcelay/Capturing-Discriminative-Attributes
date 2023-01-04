@@ -2,7 +2,7 @@
 
 This is a project based on shared task [SemEval 2018 Task 10](https://aclanthology.org/S18-1117/)
 
-## To-Dos
+## To-Do List
 ### General
 - [x] Define folder and file structure
 - [x] Implement main function and helpers
@@ -12,11 +12,12 @@ This is a project based on shared task [SemEval 2018 Task 10](https://aclantholo
 - [ ] Implement ConceptNet embedding extraction function (there is a sample function in `feature_extraction\ConceptNet\conceptnet.py`)
 - [ ] Implement word2vec and FastText (?)
 ### Knowledge Base
-- [ ] Study Luminoso's paper to see which kind of relationships are meaninful to be extracted
-- [ ] Implement relationship extraction function
+- [x] Study Luminoso's paper to see which kind of relationships are meaninful to be extracted
+- [x] Implement relationship extraction function
+- [ ] Generate .csv with the relationships (in progress)
 ## Other features
-- [ ] L1 Norm between word1-word2, word1-attribute, word2-attribute
-- [ ] Cosine similarity between word1-word2, word1-attribute, word2-attribute
+- [x] L1 Norm between word1-word2, word1-attribute, word2-attribute
+- [x] Cosine similarity between word1-word2, word1-attribute, word2-attribute
 ### Classifiers
 - [ ] Implement XGBoost
 - [ ] Implement Convolutional Neural Network (and plain MLP)
@@ -27,7 +28,6 @@ This is a project based on shared task [SemEval 2018 Task 10](https://aclantholo
 
 ## Installation
 ### Clone repository
-Clone the repository:
 
 `git clone https://github.com/luciaurcelay/Capturing-Discriminative-Attributes.git`
 

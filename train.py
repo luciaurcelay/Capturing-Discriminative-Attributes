@@ -31,11 +31,12 @@ def extract_features(parsed_args, train_df, val_df, feature_names, embeddings_pa
         print('SAVING TRAINING RELATIONS')
         train_df.to_csv(conceptnet_path+"/train_conceptnet_relations_0_500.csv", index=False)
 
-        print('EXTRACTING CONCEPTNET RELATIONS FROM VALIDATION SET')
+        # print('EXTRACTING CONCEPTNET RELATIONS FROM VALIDATION SET')
         # Relations from validation set
-        val_df = extract_relations(val_df)
-        print('SAVING VALIDATION RELATIONS')
-        val_df.to_csv(conceptnet_path+"/val_conceptnet_relations_0_500.csv", index=False)
+        # val_df = extract_relations(val_df)
+        # print('SAVING VALIDATION RELATIONS')
+        
+        # val_df.to_csv(conceptnet_path+"/val_conceptnet_relations_0_500.csv", index=False)
     
     else:
         pass

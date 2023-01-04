@@ -11,6 +11,7 @@ import pandas as pd
 
 
 def generate_word_index(dataframe):
+    
     word1_dict = dataframe['word1'].value_counts().to_dict()
     word2_dict = dataframe['word2'].value_counts().to_dict()
     pivot_dict = dataframe['pivot'].value_counts().to_dict()
@@ -73,10 +74,11 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
 
 
 def generate_glove_embeddings(args, dataframe, feature_names, embeddings_path):
+    
     # create word index
     word_index = generate_word_index(dataframe)
     # access embedding file
-    embeddings_path = join_path(embeddings_path, f'{args.embedding}.txt')
+    embeddings_path = join_path(embeddings_path, f'{args.glove_embedding}.txt')
     # create embedding vocabulary matrix
     embedding_matrix_vocab = embedding_for_vocab(args, embeddings_path, word_index)
     # create word embeddings for every word

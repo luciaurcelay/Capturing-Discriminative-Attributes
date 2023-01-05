@@ -2,8 +2,8 @@ from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 
 
-class SVC_Trainer:
 
+class SVC_Trainer:
     def __init__(self, seed, kernel, C, gamma):
         self.seed = seed
         self.classifier = SVC(random_state=seed, kernel=kernel, C=C, gamma=gamma)
@@ -31,10 +31,9 @@ class SVC_Trainer:
         predictions = self.classifier.predict(X_val)
 
         return predictions
-    
+
     def save_model(self, save_path):
         pass
-
 
     def save_features(self, save_path):
         pass

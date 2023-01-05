@@ -13,6 +13,7 @@ from models.svc import SVC_Trainer
 from models.xgboost import XGBClassifier
 from feature_extraction.ConceptNet.conceptnet import extract_relations
 from feature_extraction.embeddings.glove_embeddings import generate_glove_embeddings
+from feature_extraction.embeddings.contextual_embeddings import generate_bert_embeddings
 from feature_extraction.distances import compute_l1_norm, compute_cosine_similarity
 
 # Main helper functions
@@ -61,14 +62,14 @@ def extract_features(
             parsed_args, val_df, feature_names, embeddings_path
         )
 
-    # Contextual Emeddings
+    # Contextual Emeddings (BERT)
     elif selected_embedding == "contextual":
 
         print("EXTRACTING CONTEXTUAL EMBEDDINGS FROM TRAINING SET")
-        # TODO
+        train_df = generate_bert_embeddings(train_df)
 
-        print("EXTRACTING CONTEXTUAL FROM VALIDATION SET")
-        # TODO
+        print("EXTRACTING CONTEXTUAL EMBEDINGS FROM VALIDATION SET")
+        val_df = generate_bert_embeddings(val_df)
     
     
     ## Compute distances
@@ -99,7 +100,10 @@ def train(new_exp_path, parsed_args, train_df, val_df):
     # prepare data folds
     X_train = train_df.drop(["word1", "word2", "pivot", "label"], axis=1)
     y_train = train_df["label"]
-    X_val = val_df.drop(["index", "word1", "word2", "pivot", "label"], axis=1)
+    if 'index' in val_df:
+        X_val = val_df.drop(["index", "word1", "word2", "pivot", "label"], axis=1)
+    else:
+        X_val = val_df.drop(["word1", "word2", "pivot", "label"], axis=1)
     y_val = val_df["label"]
 
     # print dataframes
@@ -185,9 +189,6 @@ if __name__ == "__main__":
     # Create train and validation splits
     train_df, val_df = create_train_val_dataframes(train_csv_path, validation_csv_path)
     test_df = create_test_dataframe(test_csv_path)
-    """ print(f'Train dataframe:\n {train_df.head()}')
-    print(f'Validation dataframe:\n {val_df.head()}')
-    print(f'Test dataframe:\n {test_df.head()}') """
 
     print(f"Train dataframe:\n {train_df.head()}")
     print(f"Validation dataframe:\n {val_df.head()}")
@@ -195,7 +196,7 @@ if __name__ == "__main__":
 
     # Extract features
     train_df_feat, val_df_feat = extract_features(
-        parsed_args, train_df, val_df, feature_names, embeddings_path, conceptnet_path
+        parsed_args, train_df.head(10), val_df.head(10), feature_names, embeddings_path, conceptnet_path
     )
 
     # Train the selected classifier
@@ -203,4 +204,3 @@ if __name__ == "__main__":
 
     # Evaluation on test set. TODO
 
-    pass

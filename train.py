@@ -139,10 +139,11 @@ def train(new_exp_path, parsed_args, train_df, val_df):
         print(classification_rep)
 
     # XGBoost TODO
-    elif selected_model == 'XGBoost':
-        
-        pass
-    
+    elif selected_model == "XGBoost":
+
+        # Import classifier
+        model = XGBClassifier()
+
     # CNN (Convolutional Neural Network) TODO
     elif selected_model == 'CNN':
         

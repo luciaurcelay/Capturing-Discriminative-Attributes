@@ -26,28 +26,35 @@ def get_relations(word1, word2, relations_standard, relations_swapped):
   query_url = f'http://api.conceptnet.io/query?node1=/c/en/{word1}&node2=/c/en/{word2}&language=en'
 
   # Send the request and get the response
-  response = requests.get(query_url).json()
+  try:
+    response = requests.get(query_url).json()
 
-  # Extract the list of edges from the response
-  edges = response['edges']
+    # Extract the list of edges from the response
+    edges = response['edges']
 
-  # If the list is empty, there are no English language relationships between the words
-  if len(edges) == 0:
-    return []
+    # If the list is empty, there are no English language relationships between the words
+    if len(edges) == 0:
+      return []
 
-  # Otherwise, extract the relevant English language relationships from the edges
-  ## For standard order relations (word, attribute)
-  relationships_standard = [edge['rel']['label'] for edge in edges if edge['rel']['label'] in relations_standard]
-  unique_list = set(relationships_standard)
-  relationships_standard = list(unique_list)
+    # Otherwise, extract the relevant English language relationships from the edges
+    ## For standard order relations (word, attribute)
+    relationships_standard = [edge['rel']['label'] for edge in edges if edge['rel']['label'] in relations_standard]
+    unique_list = set(relationships_standard)
+    relationships_standard = list(unique_list)
 
-  ## For swapped order relations (attribute, word)
-  relationships_swapped = [edge['rel']['label'] for edge in edges if edge['rel']['label'] in relations_swapped]
-  unique_list = set(relationships_swapped)
-  relationships_swapped = list(unique_list)
+    ## For swapped order relations (attribute, word)
+    relationships_swapped = [edge['rel']['label'] for edge in edges if edge['rel']['label'] in relations_swapped]
+    unique_list = set(relationships_swapped)
+    relationships_swapped = list(unique_list)
 
-  # Return the list of relationships
-  return relationships_standard + relationships_swapped
+    # Return the list of relationships
+    return relationships_standard + relationships_swapped
+
+  except:
+    list_empty = []
+    return list_empty
+
+  
 
 
 # Create new columns in dataset
@@ -70,7 +77,7 @@ def prepare_dataframe(dataframe):
 def extract_relations(dataframe):
 
   # CHANGE RANGE
-  dataframe = dataframe.iloc[0:500]
+  dataframe = dataframe.iloc[1000:3000]
 
   # Prepare dataframe creating new columns
   dataframe = prepare_dataframe(dataframe)
@@ -88,10 +95,16 @@ def extract_relations(dataframe):
     rel_2 = get_relations(word2, attribute, RELATIONS_STANDARD, RELATIONS_SWAPPED)
 
     # Add 1 in the position that relation has been found
-    for rel in rel_1:
-      dataframe[rel+'_att1'][index] = 1
+    if len(rel_1) != 0:
+      for rel in rel_1:
+        dataframe[rel+'_att1'][index] = 1
+    else:
+      pass
 
-    for rel in rel_2:
-      dataframe[rel+'_att2'][index] = 1
+    if len(rel_2) != 0:
+      for rel in rel_2:
+        dataframe[rel+'_att2'][index] = 1
+    else:
+      pass
 
   return dataframe

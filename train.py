@@ -29,7 +29,7 @@ def extract_features(parsed_args, train_df, val_df, feature_names, embeddings_pa
         train_df = extract_relations(train_df)
         # Generate .csv file and save to resources folder
         print('SAVING TRAINING RELATIONS')
-        train_df.to_csv(conceptnet_path+"/train_conceptnet_relations_0_500.csv", index=False)
+        train_df.to_csv(conceptnet_path+"/train_conceptnet_relations_1000_3000.csv", index=False)
 
         # print('EXTRACTING CONCEPTNET RELATIONS FROM VALIDATION SET')
         # Relations from validation set
@@ -119,6 +119,10 @@ def train(new_exp_path, parsed_args, train_df, val_df):
         model = SVC_Trainer(seed, parsed_args.kernel, parsed_args.c, parsed_args.gamma)
         print('TRAINING CLASSIFIER')
         start = time.time()
+
+        # Search for the best parameters
+        # best_params = model.search_best_params(X_train, y_train)
+        # print(best_params)
         
         # Train the model
         predictions = model.train_classifier(X_train, y_train, X_val)

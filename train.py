@@ -99,7 +99,7 @@ def train(new_exp_path, parsed_args, train_df, val_df):
     # prepare data folds
     X_train = train_df.drop(["word1", "word2", "pivot", "label"], axis=1)
     y_train = train_df["label"]
-    X_val = val_df.drop(["word1", "word2", "pivot", "label"], axis=1)
+    X_val = val_df.drop(["index", "word1", "word2", "pivot", "label"], axis=1)
     y_val = val_df["label"]
 
     # print dataframes
@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
     # Extract features
     train_df_feat, val_df_feat = extract_features(
-        parsed_args, train_df, val_df, feature_names, embeddings_path
+        parsed_args, train_df, val_df, feature_names, embeddings_path, conceptnet_path
     )
 
     # Train the selected classifier

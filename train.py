@@ -117,26 +117,10 @@ def train(new_exp_path, parsed_args, train_df, val_df):
         
         # Import classifier
         model = SVC_Trainer(seed, parsed_args.kernel, parsed_args.c, parsed_args.gamma)
-        print('TRAINING CLASSIFIER')
-        start = time.time()
 
         # Search for the best parameters
         # best_params = model.search_best_params(X_train, y_train)
         # print(best_params)
-        
-        # Train the model
-        predictions = model.train_classifier(X_train, y_train, X_val)
-        end = round(time.time()-start)
-        print(f'Training took {end} seconds')
-        
-        # TBD model.save_model(new_exp_path)
-        # TBD model.save_features(new_exp_path)
-        val_accuracy = accuracy_score(y_val, predictions)
-        print(f'Validation accuracy: {val_accuracy}')
-
-        # Make classification report
-        classification_rep = classification_report(y_val, predictions)
-        print(classification_rep)
 
     # XGBoost TODO
     elif selected_model == "XGBoost":
@@ -148,6 +132,23 @@ def train(new_exp_path, parsed_args, train_df, val_df):
     elif selected_model == 'CNN':
         
         pass
+
+    print("TRAINING CLASSIFIER")
+    start = time.time()
+
+    # Train the model
+    predictions = model.train_classifier(X_train, y_train, X_val)
+    end = round(time.time() - start)
+    print(f"Training took {end} seconds")
+
+    # TBD model.save_model(new_exp_path)
+    # TBD model.save_features(new_exp_path)
+    val_accuracy = accuracy_score(y_val, predictions)
+    print(f"Validation accuracy: {val_accuracy}")
+
+    # Make classification report
+    classification_rep = classification_report(y_val, predictions)
+    print(classification_rep)
 
 
 # Define main block

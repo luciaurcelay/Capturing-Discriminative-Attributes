@@ -9,7 +9,7 @@ This is a project based on shared task [SemEval 2018 Task 10](https://aclantholo
 ### Embeddings
 - [ ] Fix GloVe embeddings (all dimension from the word embedding vectors should be used, but rn they are averaged to one dimension bc it yields an error if not)
 - [ ] Implement contextual embedding extraction function
-- [ ] ~~Implement ConceptNet embedding extraction function
+- [ ] ~~Implement ConceptNet embedding extraction function~~
 - [ ] Implement word2vec and FastText (?)
 ### Knowledge Base
 - [x] Study Luminoso's paper to see which kind of relationships are meaninful to be extracted

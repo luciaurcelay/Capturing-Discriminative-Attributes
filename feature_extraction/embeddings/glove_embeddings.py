@@ -46,23 +46,34 @@ def embedding_for_vocab(args, embeddings_path, word_index):
             if word in word_index:
                 # add word to vocabulary
                 embedding_values = np.array(vector, dtype=np.float32)[:embedding_dim]
-                embedding_vocab_dict[word] = embedding_values.mean(axis=0)
+
+                embedding_vocab_dict[word] = embedding_values[0:3]
+                # embedding_vocab_dict[word] = embedding_values.mean(axis=0)
 
     return embedding_vocab_dict
 
 
 def create_embeddings(dataframe, feature_names, embeddings_vocab):
     # initialize columns
+    embed_dim = len(list(embeddings_vocab.values())[0])
     for i in range(len(feature_names) - 1):
-        dataframe[feature_names[i] + "_embedding"] = np.zeros
+        for dim in range(embed_dim):
+            dataframe[f"{feature_names[i]}_embedding_dim_{dim}"] = 0.0
+
     # add embedding values to each word
     false_rows = []
     for (columnName, columnData) in dataframe[["word1", "word2", "pivot"]].iteritems():
         for i, word in enumerate(columnData.values):
             try:
-                dataframe[columnName + "_embedding"].iloc[i] = embeddings_vocab[word]
+                # dataframe[columnName + "_embedding"].iloc[i] = embeddings_vocab[word]
+                dataframe = _populate_embedding_vector(
+                    dataframe, embeddings_vocab[word], i, columnName
+                )
             except:
-                dataframe[columnName + "_embedding"].iloc[i] = np.nan
+                # dataframe[columnName + "_embedding"].iloc[i] = np.nan
+                dataframe = _populate_embedding_vector(
+                    dataframe, np.empty(embed_dim) * np.nan, i, columnName
+                )
                 false_rows.append(i)
                 print("False found")
     # delete rows which have not have embeddings
@@ -70,6 +81,12 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
         dataframe = dataframe.drop(false_rows).reset_index()
 
     return dataframe
+
+
+def _populate_embedding_vector(df, vector, row_num, column_name):
+    cols_use = [col for col in df.columns if column_name in col]
+    df.loc[row_num, cols_use[1:]] = vector
+    return df
 
 
 def generate_glove_embeddings(args, dataframe, feature_names, embeddings_path):

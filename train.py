@@ -10,6 +10,7 @@ from utils.argument_parser import parse_input_arguments
 from utils.path_utils import *
 from utils.csv_utils import *
 from models.svc import SVC_Trainer
+from models.xgboost import XGBClassifier
 from feature_extraction.ConceptNet.conceptnet import extract_relations
 from feature_extraction.embeddings.glove_embeddings import generate_glove_embeddings
 from feature_extraction.distances import compute_l1_norm, compute_cosine_similarity

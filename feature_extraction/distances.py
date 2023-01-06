@@ -1,6 +1,9 @@
 import math
 from itertools import combinations
 
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
 # Calculate the computation of l1 norm
 def calculate_l1_norm(vec1, vec2):
 
@@ -78,18 +81,33 @@ def compute_cosine_similarity(dataframe):
 
     dataframe = dataframe.assign(cosine_12=None, cosine_13=None, cosine_23=None)
 
-    for index, value in dataframe["pivot_embedding"].iteritems():
+    attr_combinations = combinations(["word1", "word2", "pivot"], 2)
+    colnames = ["12", "13", "23"]
 
-        attribute = value
-        word1 = dataframe["word1_embedding"][index]
-        word2 = dataframe["word2_embedding"][index]
+    for colname, (attr1, attr2) in zip(colnames, attr_combinations):
+        vec1 = dataframe[[col for col in dataframe.columns if attr1 in col][1:]]
+        vec2 = dataframe[[col for col in dataframe.columns if attr2 in col][1:]]
 
-        d1_2 = calculate_cosine_similarity(word1, word2)
-        d1_3 = calculate_cosine_similarity(word1, attribute)
-        d2_3 = calculate_cosine_similarity(word2, attribute)
+        dataframe[f"cosine_{colname}"] = calculate_cosine_pandas(vec1, vec2)
 
-        dataframe["cosine_12"][index] = d1_2
-        dataframe["cosine_13"][index] = d1_3
-        dataframe["cosine_23"][index] = d2_3
+    # for index, value in dataframe["pivot_embedding"].iteritems():
+
+    #     attribute = value
+    #     word1 = dataframe["word1_embedding"][index]
+    #     word2 = dataframe["word2_embedding"][index]
+
+    #     d1_2 = calculate_cosine_similarity(word1, word2)
+    #     d1_3 = calculate_cosine_similarity(word1, attribute)
+    #     d2_3 = calculate_cosine_similarity(word2, attribute)
+
+    #     dataframe["cosine_12"][index] = d1_2
+    #     dataframe["cosine_13"][index] = d1_3
+    #     dataframe["cosine_23"][index] = d2_3
 
     return dataframe
+
+
+def calculate_cosine_pandas(vec1, vec2):
+    similarity_matrix = cosine_similarity(vec1, vec2)
+    similarities = np.diag(similarity_matrix)
+    return similarities

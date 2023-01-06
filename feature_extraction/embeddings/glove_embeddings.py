@@ -3,7 +3,6 @@ import pandas as pd
 from collections import Counter
 from collections import defaultdict
 from utils.path_utils import join_path
-import warnings
 
 import pandas as pd
 

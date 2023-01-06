@@ -11,6 +11,7 @@ from utils.path_utils import *
 from utils.csv_utils import *
 from models.svc import SVC_Trainer
 from models.xgboost import XGBClassifier
+from models.mlp import MLP
 from feature_extraction.ConceptNet.conceptnet import extract_relations
 from feature_extraction.embeddings.glove_embeddings import generate_glove_embeddings
 from feature_extraction.embeddings.contextual_embeddings import generate_bert_embeddings
@@ -142,8 +143,9 @@ def train(new_exp_path, parsed_args, train_df, val_df):
 
     # CNN (Convolutional Neural Network) TODO
     elif selected_model == "CNN":
-        model = MLP(input_dim=train_df.shape[1])
-        print(model.print_summary())
+        model = MLP(input_dim=X_train.shape[1])
+        print(f"\nModel outline:")
+        model.print_summary()
 
     print("TRAINING CLASSIFIER")
     start = time.time()

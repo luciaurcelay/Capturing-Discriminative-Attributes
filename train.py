@@ -138,8 +138,8 @@ def train(new_exp_path, parsed_args, train_df, val_df):
 
     # CNN (Convolutional Neural Network) TODO
     elif selected_model == "CNN":
-
-        pass
+        model = MLP(input_dim=train_df.shape[1])
+        print(model.print_summary())
 
     print("TRAINING CLASSIFIER")
     start = time.time()

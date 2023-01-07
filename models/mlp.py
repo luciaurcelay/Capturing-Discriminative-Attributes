@@ -35,6 +35,8 @@ class MLP:
         print(self.model.summary())
 
     def train_classifier(self, X_train, y_train, X_val):
+        X_train = X_train.astype(float)
+        X_val = X_val.astype(float)
         self.model.fit(X_train, y_train, epochs=self.epochs)
         # Make predictions
         predictions = self.model.predict(X_val)

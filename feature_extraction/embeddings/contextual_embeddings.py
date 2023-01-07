@@ -56,7 +56,7 @@ def generate_bert_embeddings(dataframe):
         # try:
         if True:
             bert_embeddings = get_embeddings(
-                [word1, word2, word3], tokenizer, model, dataframe, used_dim
+                [word1, word2, word3], tokenizer, model, used_dim
             )
             dataframe.loc[index, bert_colnames] = bert_embeddings
 

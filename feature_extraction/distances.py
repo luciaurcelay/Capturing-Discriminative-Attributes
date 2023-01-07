@@ -59,11 +59,12 @@ def compute_l1_norm(dataframe, just_distances):
 
         dataframe[f"l1_{colname}"] = calculate_l1_norm_pandas(vec1, vec2)
 
-    if just_distances:
+    if just_distances == "True":
         columns_keep = ["word1", "word2", "pivot", "label"] + [
             f"l1_{colname}" for colname in colnames
         ]
         dataframe = dataframe[columns_keep]
+
     # Still keep this for possible debugging
     # for index, value in dataframe["pivot_embedding_dim_0"].iteritems():
 
@@ -95,7 +96,7 @@ def compute_cosine_similarity(dataframe, just_distances):
 
         dataframe[f"cosine_{colname}"] = calculate_cosine_pandas(vec1, vec2)
 
-    if just_distances:
+    if just_distances == "True":
         columns_keep = ["word1", "word2", "pivot", "label"] + [
             f"cosine_{colname}" for colname in colnames
         ]

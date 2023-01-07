@@ -1,13 +1,16 @@
 # Import Packages
 import time
+import os
+import json
+import pickle
 import tensorflow as tf
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
-from lazypredict.Supervised import LazyClassifier
+
 
 # Import Functions
 from utils.argument_parser import parse_input_arguments
-from utils.path_utils import *
+from utils.path_utils import join_path, create_folder, create_new_experiment_folder
 from utils.csv_utils import *
 from models.svc import SVC_Trainer
 from models.xgboost import XGBClassifier
@@ -96,7 +99,7 @@ def extract_features(
     return train_df, val_df
 
 
-def train(new_exp_path, parsed_args, train_df, val_df):
+def train(new_exp_path, parsed_args, train_df, val_df, model_path):
 
     # prepare data folds
     X_train = train_df.drop(["word1", "word2", "pivot", "label"], axis=1)
@@ -116,17 +119,8 @@ def train(new_exp_path, parsed_args, train_df, val_df):
     # Select model
     selected_model = parsed_args.model
 
-    # Lazy classifier (tests different kinds of simple classifiers)
-    if selected_model == "lazy":
-
-        # clf = LazyClassifier(verbose=0,ignore_warnings=True, custom_metric=None)
-        # models,predictions = clf.fit(X_train, X_test, y_train, y_test)
-        # print(models)
-
-        pass
-
     # Support vector classifier
-    elif selected_model == "SVC":
+    if selected_model == "SVC":
 
         # Import classifier
         model = SVC_Trainer(seed, parsed_args.kernel, parsed_args.c, parsed_args.gamma)
@@ -161,8 +155,23 @@ def train(new_exp_path, parsed_args, train_df, val_df):
     print(f"Validation accuracy: {val_accuracy}")
 
     # Make classification report
-    classification_rep = classification_report(y_val, predictions)
-    print(classification_rep)
+    # Save results
+    save_results(predictions, y_val, val_accuracy, model, model_path)
+
+
+def save_results(predictions, y_val, val_accuracy, model, model_path):
+    predictions_path = join_path(model_path, "predictions.csv")
+    pd.DataFrame({"prediction": predictions}).to_csv(predictions_path, index=False)
+
+    rep_path = join_path(model_path, "classification_report.json")
+    with open(rep_path, "w") as file:
+        report = classification_report(y_val, predictions, output_dict=True)
+        report["validation_accuracy"] = val_accuracy
+        json.dump(report, file)
+
+    mod_pkl_path = join_path(model_path, f"{model_path.split('/')[-1]}.pkl")
+    pickle.dump(model, open(mod_pkl_path, "wb"))
+    print(classification_report(y_val, predictions))
 
 
 # Define main block
@@ -202,7 +211,7 @@ if __name__ == "__main__":
     )
 
     # Train the selected classifier
-    train(new_experiment_path, parsed_args, train_df_feat, val_df_feat)
+    train(new_experiment_path, parsed_args, train_df_feat, val_df_feat, model_path)
 
     # Evaluation on test set. TODO
 

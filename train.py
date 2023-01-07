@@ -77,16 +77,16 @@ def extract_features(
     # L1 norm
     selected_l1 = parsed_args.l1_norm
     if selected_l1 == "True":
-        train_df = compute_l1_norm(train_df)
-        val_df = compute_l1_norm(val_df)
+        train_df = compute_l1_norm(train_df, parsed_args.just_distances)
+        val_df = compute_l1_norm(val_df, parsed_args.just_distances)
     else:
         pass
 
     # Cosine similarity
     selected_cosine = parsed_args.cosine
     if selected_cosine == "True":
-        train_df = compute_cosine_similarity(train_df)
-        val_df = compute_cosine_similarity(val_df)
+        train_df = compute_cosine_similarity(train_df, parsed_args.just_distances)
+        val_df = compute_cosine_similarity(val_df, parsed_args.just_distances)
     else:
         pass
 

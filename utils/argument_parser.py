@@ -80,6 +80,13 @@ def parse_input_arguments():
         choices=["True", "False"],
         default="True",
     )
+    parser.add_argument(
+        "-jd",
+        "--just-distances",
+        help="",
+        choices=["True", "False"],
+        default="True",
+    )
 
     parsed_args = parser.parse_args()
     return parsed_args

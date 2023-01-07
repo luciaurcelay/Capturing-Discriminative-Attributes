@@ -46,7 +46,7 @@ def calculate_cosine_similarity(vec1, vec2):
 
 
 # This function computes: L1_word1_word2, L1_word1_attribute, L2_word2_attribute
-def compute_l1_norm(dataframe):
+def compute_l1_norm(dataframe, just_distances):
 
     dataframe = dataframe.assign(l1_12=None, l1_13=None, l1_23=None)
 
@@ -59,6 +59,11 @@ def compute_l1_norm(dataframe):
 
         dataframe[f"l1_{colname}"] = calculate_l1_norm_pandas(vec1, vec2)
 
+    if just_distances:
+        columns_keep = ["word1", "word2", "pivot", "label"] + [
+            f"l1_{colname}" for colname in colnames
+        ]
+        dataframe = dataframe[columns_keep]
     # Still keep this for possible debugging
     # for index, value in dataframe["pivot_embedding_dim_0"].iteritems():
 
@@ -77,7 +82,7 @@ def compute_l1_norm(dataframe):
     return dataframe
 
 
-def compute_cosine_similarity(dataframe):
+def compute_cosine_similarity(dataframe, just_distances):
 
     dataframe = dataframe.assign(cosine_12=None, cosine_13=None, cosine_23=None)
 
@@ -90,6 +95,11 @@ def compute_cosine_similarity(dataframe):
 
         dataframe[f"cosine_{colname}"] = calculate_cosine_pandas(vec1, vec2)
 
+    if just_distances:
+        columns_keep = ["word1", "word2", "pivot", "label"] + [
+            f"cosine_{colname}" for colname in colnames
+        ]
+        dataframe = dataframe[columns_keep]
     # for index, value in dataframe["pivot_embedding"].iteritems():
 
     #     attribute = value

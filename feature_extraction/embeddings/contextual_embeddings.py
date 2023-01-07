@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-def get_embeddings(sequence, tokenizer, model):
+def get_embeddings(sequence, tokenizer, model, used_dim):
 
     # Tokenize sequence
     tokens = tokenizer.encode(sequence, add_special_tokens=True)
@@ -17,10 +17,8 @@ def get_embeddings(sequence, tokenizer, model):
     hidden_states = outputs[2][1:]
     token_embeddings = hidden_states[-1]
     token_embeddings = torch.squeeze(token_embeddings, dim=0)
-    list_token_embeddings = [token_embed.tolist() for token_embed in token_embeddings]
     # BERT embeddings have 768 dimensions (change slice below)
-    bert_embeddings = list_token_embeddings[0][:50]
-    bert_embeddings = [round(num, 4) for num in bert_embeddings]
+    bert_embeddings = token_embeddings[1:4, :used_dim].ravel().detach().numpy()
 
     return bert_embeddings
 
@@ -37,6 +35,13 @@ def generate_bert_embeddings(dataframe):
     # Initialize column
     dataframe["bert_embedding"] = np.zeros
 
+    used_dim = 678
+    bert_colnames = []
+    for word in ["word1", "word2", "pivot"]:
+        for i in range(used_dim):
+            bert_colnames.append(f"{word}_bert_embedding_dim_{i+1}")
+    dataframe[bert_colnames] = np.zeros
+
     for index, row in dataframe[["word1", "word2", "pivot"]].iterrows():
 
         # Create an empty list to store the sentences which do not have embeddings
@@ -48,11 +53,15 @@ def generate_bert_embeddings(dataframe):
         word3 = row["pivot"]
 
         # Get BERT embeddings
-        try:
-            bert_embeddings = get_embeddings([word1, word2, word3], tokenizer, model)
-            dataframe["bert_embedding"].iloc[index] = bert_embeddings
+        # try:
+        if True:
+            bert_embeddings = get_embeddings(
+                [word1, word2, word3], tokenizer, model, dataframe, used_dim
+            )
+            dataframe.loc[index, bert_colnames] = bert_embeddings
 
-        except:
+        # except:
+        else:
             dataframe["bert_embedding"].iloc[index] = np.nan
             false_rows.append(index)
             print("Sequence without BERT embedding")
@@ -61,15 +70,5 @@ def generate_bert_embeddings(dataframe):
     if len(false_rows) > 0:
         dataframe = dataframe.drop(false_rows).reset_index()
 
-    embeddings_df_colnames = [
-        f"bert_embedding_dim_{i}" for i in range(len(bert_embeddings))
-    ]
-
-    embeddings_df = pd.DataFrame(
-        dataframe["bert_embedding"].to_list(),
-        columns=embeddings_df_colnames,
-    )
-
-    dataframe = pd.concat([dataframe, embeddings_df], axis=1)
     dataframe = dataframe.drop(columns="bert_embedding")
     return dataframe

@@ -11,7 +11,9 @@ ALL_RELATIONS = RELATIONS_STANDARD + RELATIONS_SWAPPED
 def get_relations(word1, word2, relations_standard, relations_swapped):
 
     # Build the API query URL
-    query_url = f"http://api.conceptnet.io/query?node1=/c/en/{word1}&node2=/c/en/{word2}&language=en"
+    query_url = (
+        f"http://api.conceptnet.io/query?node1=/c/en/{word1}&node2=/c/en/{word2}&language=en"
+    )
 
     # Send the request and get the response
     try:
@@ -27,18 +29,14 @@ def get_relations(word1, word2, relations_standard, relations_swapped):
         # Otherwise, extract the relevant English language relationships from the edges
         ## For standard order relations (word, attribute)
         relationships_standard = [
-            edge["rel"]["label"]
-            for edge in edges
-            if edge["rel"]["label"] in relations_standard
+            edge["rel"]["label"] for edge in edges if edge["rel"]["label"] in relations_standard
         ]
         unique_list = set(relationships_standard)
         relationships_standard = list(unique_list)
 
         ## For swapped order relations (attribute, word)
         relationships_swapped = [
-            edge["rel"]["label"]
-            for edge in edges
-            if edge["rel"]["label"] in relations_swapped
+            edge["rel"]["label"] for edge in edges if edge["rel"]["label"] in relations_swapped
         ]
         unique_list = set(relationships_swapped)
         relationships_swapped = list(unique_list)
@@ -82,7 +80,7 @@ def prepare_dataframe(dataframe):
 def extract_relations(dataframe):
 
     # CHANGE RANGE
-    dataframe = dataframe.iloc[12001:]
+    dataframe = dataframe.iloc[:]
     print(dataframe)
 
     # Prepare dataframe creating new columns

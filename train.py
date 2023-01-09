@@ -207,11 +207,26 @@ if __name__ == "__main__":
 
     # Extract features
     train_df_feat, val_df_feat = extract_features(
-        parsed_args, train_df.head(10), val_df.head(10), feature_names, embeddings_path, conceptnet_path
+        parsed_args,
+        train_df,
+        val_df,
+        feature_names,
+        embeddings_path,
+        conceptnet_path,
     )
+
+    # model_name = parsed_args.model
+    model_name = f"{parsed_args.model}_{parsed_args.embedding}_{parsed_args.embedding_dim}_all"
+
+    if parsed_args.l1_norm == "True":
+        model_name += "_l1"
+    if parsed_args.cosine == "True":
+        model_name += "_cosine"
+    model_path = join_path(".", "results", f"{model_name}")
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
 
     # Train the selected classifier
     train(new_experiment_path, parsed_args, train_df_feat, val_df_feat, model_path)
 
     # Evaluation on test set. TODO
-

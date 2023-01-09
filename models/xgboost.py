@@ -1,5 +1,4 @@
 import xgboost as xgb
-import pandas as pd
 
 
 class XGBClassifier:
@@ -11,9 +10,7 @@ class XGBClassifier:
             max_depth=max_depth,
             colsample_bytree=colsamp_bytree,
         )
-        self.params = self.create_params_dict(
-            eta, n_estimators, max_depth, colsamp_bytree
-        )
+        self.params = self.create_params_dict(eta, n_estimators, max_depth, colsamp_bytree)
 
     def train_classifier(self, X_train, y_train, X_val) -> None:
         X_train = self.model_specific_preprocessing(X_train)

@@ -1,6 +1,5 @@
-from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.svm import SVC
 
 
 class SVC_Trainer:
@@ -10,10 +9,7 @@ class SVC_Trainer:
 
     def search_best_params(self, X_train, y_train):
         # Define the parameter values to search
-        param_grid = {
-            "kernel": ["linear", "rbf"],
-            "C": [0.1, 1, 10]
-        }
+        param_grid = {"kernel": ["linear", "rbf"], "C": [0.1, 1, 10]}
 
         # Create a grid search object
         grid_search = GridSearchCV(self.classifier, param_grid, cv=5, scoring="f1")
@@ -23,7 +19,7 @@ class SVC_Trainer:
 
         # Get the best parameters
         best_params = grid_search.best_params_
-        
+
         return best_params
 
     def train_classifier(self, X_train, y_train, X_val):

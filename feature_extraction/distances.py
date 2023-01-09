@@ -4,6 +4,7 @@ from itertools import combinations
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 # Calculate the computation of l1 norm
 def calculate_l1_norm(vec1, vec2):
 
@@ -65,21 +66,6 @@ def compute_l1_norm(dataframe, just_distances):
         ]
         dataframe = dataframe[columns_keep]
 
-    # Still keep this for possible debugging
-    # for index, value in dataframe["pivot_embedding_dim_0"].iteritems():
-
-    #     attribute = value
-    #     word1 = dataframe["word1_embedding"][index]
-    #     word2 = dataframe["word2_embedding"][index]
-
-    #     d1_2 = calculate_l1_norm(word1, word2)
-    #     d1_3 = calculate_l1_norm(word1, attribute)
-    #     d2_3 = calculate_l1_norm(word2, attribute)
-
-    #     dataframe["l1_12"][index] = d1_2
-    #     dataframe["l1_13"][index] = d1_3
-    #     dataframe["l1_23"][index] = d2_3
-
     return dataframe
 
 
@@ -101,19 +87,6 @@ def compute_cosine_similarity(dataframe, just_distances):
             f"cosine_{colname}" for colname in colnames
         ]
         dataframe = dataframe[columns_keep]
-    # for index, value in dataframe["pivot_embedding"].iteritems():
-
-    #     attribute = value
-    #     word1 = dataframe["word1_embedding"][index]
-    #     word2 = dataframe["word2_embedding"][index]
-
-    #     d1_2 = calculate_cosine_similarity(word1, word2)
-    #     d1_3 = calculate_cosine_similarity(word1, attribute)
-    #     d2_3 = calculate_cosine_similarity(word2, attribute)
-
-    #     dataframe["cosine_12"][index] = d1_2
-    #     dataframe["cosine_13"][index] = d1_3
-    #     dataframe["cosine_23"][index] = d2_3
 
     return dataframe
 

@@ -44,12 +44,3 @@ class MLP:
         predictions[predictions > 0.5] = 1
 
         return predictions
-
-
-# Layer type Output Shape Param #
-# Dense1 (None, 12) 132
-# Dropout1 (None, 12) 0
-# Dense2 (None, 12) 156
-# Dense3 (None, 100) 1300
-# Dense4 (None, 200) 20200
-# Dense5 (None, 1) 201

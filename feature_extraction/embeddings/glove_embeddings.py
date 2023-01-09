@@ -1,13 +1,9 @@
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
-from collections import Counter
-from collections import defaultdict
+
 from utils.path_utils import join_path
-
-import pandas as pd
-
-# from pandas.core.common import SettingWithCopyWarning
-# warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
 def generate_word_index(dataframe):
@@ -20,7 +16,7 @@ def generate_word_index(dataframe):
     # create dictionary merging words from all columns
     for d in dicts:
         for k, v in d.items():
-            if not k in super_dict.keys():
+            if k not in super_dict.keys():
                 super_dict[k].add(v)
             else:
                 super_dict[k].add(v)
@@ -46,7 +42,7 @@ def embedding_for_vocab(args, embeddings_path, word_index):
                 # add word to vocabulary
                 embedding_values = np.array(vector, dtype=np.float32)[:embedding_dim]
 
-                embedding_vocab_dict[word] = embedding_values[0:3]
+                embedding_vocab_dict[word] = embedding_values[0:]
                 # embedding_vocab_dict[word] = embedding_values.mean(axis=0)
 
     return embedding_vocab_dict
@@ -58,9 +54,7 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
     # First drop any rows with not full embeddings found
     attribute_names = ["word1", "word2", "pivot"]
 
-    complete_rows = (
-        dataframe[attribute_names].isin(list(embeddings_vocab.keys())).all(axis=1)
-    )
+    complete_rows = dataframe[attribute_names].isin(list(embeddings_vocab.keys())).all(axis=1)
     dataframe = dataframe[complete_rows].reset_index(drop=True)
 
     # initialize list of empty dataframes
@@ -76,26 +70,6 @@ def create_embeddings(dataframe, feature_names, embeddings_vocab):
         embedding_dataframes.append(embed_df)
 
     dataframe = pd.concat([dataframe, *embedding_dataframes], axis=1)
-
-    # add embedding values to each word
-    # false_rows = []
-    # for (columnName, columnData) in dataframe[["word1", "word2", "pivot"]].iteritems():
-    #     for i, word in enumerate(columnData.values):
-    #         try:
-    #             # dataframe[columnName + "_embedding"].iloc[i] = embeddings_vocab[word]
-    #             dataframe = _populate_embedding_vector(
-    #                 dataframe, embeddings_vocab[word], i, columnName
-    #             )
-    #         except:
-    #             # dataframe[columnName + "_embedding"].iloc[i] = np.nan
-    #             # dataframe = _populate_embedding_vector(
-    #             #     dataframe, np.empty(embed_dim) * np.nan, i, columnName
-    #             # )
-    #             false_rows.append(i)
-    #             print("False found")
-    # # delete rows which have not have embeddings
-    # if len(false_rows) > 0:
-    #     dataframe = dataframe.drop(false_rows).reset_index()
 
     return dataframe
 

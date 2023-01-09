@@ -87,6 +87,13 @@ def parse_input_arguments():
         choices=["True", "False"],
         default="True",
     )
+    parser.add_argument(
+        "-ple",
+        "--pre-loaded-embeddings",
+        help="",
+        choices=["True", "False"],
+        default="False",
+    )
 
     parsed_args = parser.parse_args()
     return parsed_args

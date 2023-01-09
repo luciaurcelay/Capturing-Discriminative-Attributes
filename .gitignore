@@ -2,3 +2,4 @@ env/
 resources/
 .vscode/
 __pycache__
+pyproject.toml

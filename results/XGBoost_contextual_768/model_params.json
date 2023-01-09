@@ -1,0 +1,6 @@
+{
+    "eta": 0.0001,
+    "n_estimators": 100,
+    "max_depth": 7,
+    "colsamp_bytree": 1.0
+}

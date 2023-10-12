@@ -4,7 +4,7 @@
 </p>
 
 ## Description
-This project aims to solve the shared task [SemEval 2018 Task 10](https://aclanthology.org/S18-1117/)
+This project aims to solve the shared task [SemEval 2018 Task 10](https://aclanthology.org/S18-1117/). Capturing Discriminative Attributes task consists in identifying whether an attribute could help discriminate between two concepts. For example, a successful system should determine that urine is a discriminating feature in the word pair kidney,bone. The aim of the task is to better evaluate the capabilities of state of the art semantic models, beyond pure semantic similarity.
 
 Our approach is based on the following pipeline:
 <p align="center">
@@ -12,9 +12,6 @@ Our approach is based on the following pipeline:
 </p>
 
 ## Installation
-### Clone repository
-
-`git clone https://github.com/luciaurcelay/Capturing-Discriminative-Attributes.git`
 
 ### Install requirements
 `pip install -r requirements.txt`
@@ -35,3 +32,8 @@ Once downloaded, unzip in `resources` folder. Files should follow the following 
 `train.py` function requires argurments, use the following command to take a look at them:
 
 `python train.py -h`
+
+## Authors
+* Lucia Urcelay
+* Rasmus Siljander
+

@@ -1,33 +1,15 @@
 # Capturing-Discriminative-Attributes
+<p align="center">
+  <img src="assets/discriminative.png" alt= “discriminative” width="60%" style="display: block; margin: 0 auto">
+</p>
 
-This is a project based on shared task [SemEval 2018 Task 10](https://aclanthology.org/S18-1117/)
+## Description
+This project aims to solve the shared task [SemEval 2018 Task 10](https://aclanthology.org/S18-1117/)
 
-## To-Do List
-### General
-- [x] Define folder and file structure
-- [x] Implement main function and helpers
-### Embeddings
-- [x] Fix GloVe embeddings
-- [x] Implement BERT embeddings
-- [ ] Divide BERT embeddings into differnt columns
-- [ ] ~~Implement ConceptNet embedding extraction function~~
-- [ ] ~~Implement word2vec and FastText~~
-### Knowledge Base
-- [x] Study Luminoso's paper to see which kind of relationships are meaninful to be extracted
-- [x] Implement relationship extraction function
-- [ ] Generate .csv with the relationships (in progress)
-## Other features
-- [x] L1 Norm between word1-word2, word1-attribute, word2-attribute
-- [x] Cosine similarity between word1-word2, word1-attribute, word2-attribute
-### Classifiers
-- [x] Implement XGBoost
-- [ ] Implement Convolutional Neural Network (and plain MLP)
-### Test and Validation
-- [ ] Implement test set
-### Experiments
-- [ ] Make experiments for all configurations (ablation study)
-### Project presentation
-- [ ] Prepare slides
+Our approach is based on the following pipeline:
+<p align="center">
+  <img src="assets/pipeline.png" alt= “pipeline” width="60%" style="display: block; margin: 0 auto">
+</p>
 
 ## Installation
 ### Clone repository

@@ -1,6 +1,6 @@
 # Capturing-Discriminative-Attributes
 <p align="center">
-  <img src="assets/discriminative.png" alt= “discriminative” width="60%" style="display: block; margin: 0 auto">
+  <img src="assets/discriminative.png" alt= “discriminative” width="70%" style="display: block; margin: 0 auto">
 </p>
 
 ## Description
@@ -8,7 +8,7 @@ This project aims to solve the shared task [SemEval 2018 Task 10](https://aclant
 
 Our approach is based on the following pipeline:
 <p align="center">
-  <img src="assets/pipeline.png" alt= “pipeline” width="60%" style="display: block; margin: 0 auto">
+  <img src="assets/pipeline.png" alt= “pipeline” width="90%" style="display: block; margin: 0 auto">
 </p>
 
 ## Installation
